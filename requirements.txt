@@ -1,0 +1,7 @@
+langchain
+langchain-community
+langchain-core
+langsmith
+huggingface_hub
+python-dotenv
+pandas

@@ -205,3 +205,99 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# LangChain / Local data
+.env
+data/*.csv
+
+# --- Base Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+
+# --- Virtual environments ---
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# --- IDE ---
+.vscode/
+.idea/
+.spyderproject
+.spyproject
+.ropeproject
+
+# --- Build & packaging ---
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+*.manifest
+*.spec
+
+# --- Tests & coverage ---
+.tox/
+.nox/
+.coverage
+htmlcov/
+.pytest_cache/
+.coverage.*
+
+# --- Logs & databases ---
+*.log
+db.sqlite3
+*.db
+
+# --- Jupyter & notebooks ---
+.ipynb_checkpoints/
+
+# --- Environment variables ---
+.env
+.envrc
+.pdm-python
+
+# --- LangChain / AI specific ---
+# Ignore any local datasets or cache
+data/
+*.csv
+*.json
+*.parquet
+*.zip
+*.pkl
+*.npy
+*.npz
+
+# --- Model weights or checkpoints ---
+*.bin
+*.ckpt
+*.pt
+*.safetensors
+
+# --- LangSmith local traces ---
+.langsmith/
+traces/
+logs/
+
+# --- Misc cache ---
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+.dmypy.json
+.cache/
+__pypackages__/
+cython_debug/
+marimo/_static/
+marimo/_lsp/
+__marimo__/
+
+# --- Custom project folders ---
+# Ignore any experiment or local evals folder
+experiments/
+outputs/
+artifacts/
+tmp/
