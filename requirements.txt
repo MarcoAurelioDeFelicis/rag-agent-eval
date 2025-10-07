@@ -1,7 +1,13 @@
 langchain
-langchain-community
+langchain_google_genai
+langchain_community
+langchain-huggingface
 langchain-core
 langsmith
 huggingface_hub
 python-dotenv
 pandas
+faiss-cpu
+google-generativeai
+sentence-transformers
+numpy==1.26.4
