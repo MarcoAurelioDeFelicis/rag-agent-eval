@@ -6,7 +6,13 @@ from dotenv import load_dotenv
 def configure_api_key():
 
     load_dotenv()
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        raise ValueError("❌ ERROR: NO API key founded!")
-    os.environ["GOOGLE_API_KEY"] = api_key
+
+    google_api_key = os.getenv("GOOGLE_API_KEY")
+    if not google_api_key:
+        raise ValueError("❌ ERROR: NO google API key founded!")
+    os.environ["GOOGLE_API_KEY"] = google_api_key
+
+    hf_api_token = os.getenv("HUGGINGFACEHUB_API_TOKEN")
+    if not hf_api_token:
+        raise ValueError("❌ ERROR: NO hugging face API key founded!")
+    os.environ["HUGGINGFACEHUB_API_TOKEN"] = hf_api_token
