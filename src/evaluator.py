@@ -1,16 +1,27 @@
 from langchain.evaluation import load_evaluator
-from langchain_community.llms import huggingface_hub
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 '''EVAL MODEL'''
 
 def get_accuracy_evaluator():
 
-    judge_llm = huggingface_hub(
-        repo_id="mistralai/Mistral-7B-Instruct-v0.2",
-        model_kwargs={"temperature": 0.2, "max_new_tokens": 1024}
+    judge_llm = ChatGoogleGenerativeAI(
+        model="gemini-2.5-pro",
+        temperature=0.1,
+        
+        model_kwargs={"safety_settings": {
+            "HARASSMENT": "BLOCK_NONE",
+            "HATE": "BLOCK_NONE",
+            "SEXUAL": "BLOCK_NONE",
+            "DANGEROUS": "BLOCK_NONE",
+        }}
     )
 
-    # eval model langChain.
-    evaluator = load_evaluator("contextual_accuracy", llm=judge_llm)
-    
+    evaluator = load_evaluator(
+        "labeled_criteria",
+        criteria="correctness",
+        llm=judge_llm
+    )
+
+
     return evaluator

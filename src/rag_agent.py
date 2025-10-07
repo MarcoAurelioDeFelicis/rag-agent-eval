@@ -3,6 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.retrieval import create_retrieval_chain
 
+'''RETRIVAL AUGMENTED GENERATION'''
 
 def create_rag_agent(db):
 
@@ -10,17 +11,19 @@ def create_rag_agent(db):
 
     '''PROMPT TEMEPLATE'''
     prompt = ChatPromptTemplate.from_template("""
-You are an exper chef assistant. Answer the user's question in a helpful and concise manner, 
+You are an expert chef assistant. 
+Answer the user's question in a helpful and concise manner, 
 based solely on the following context:
 <context>
 {context}
 </context>
 Question: {input}
+                                              
 """)
 
     document_chain = create_stuff_documents_chain(llm, prompt)
     retriever = db.as_retriever()
-    # Combined chain
+    # combined chaim
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
     return retrieval_chain
