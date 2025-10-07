@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 """ Load of the google api key to set it up as env variable """
 
-def configure_api_key():
+def configure_api_keys():
 
     load_dotenv()
 
