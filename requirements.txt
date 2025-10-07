@@ -1,10 +1,10 @@
 langchain
 langchain_google_genai
-langchain_community
+langchain-community
 langchain-huggingface
 langchain-core
 langsmith
-huggingface_hub
+huggingface-hub
 python-dotenv
 pandas
 faiss-cpu
