@@ -1,10 +1,12 @@
 import os
+import logging
 from dotenv import load_dotenv
 
 """ Load of the google api key to set it up as env variable """
 
 def configure_api_keys():
 
+    logging.info("🔑🗝️ Loading API keys from .env file...")
     load_dotenv()
 
     google_api_key = os.getenv("GOOGLE_API_KEY")
@@ -16,3 +18,5 @@ def configure_api_keys():
     if not hf_api_token:
         raise ValueError("❌ ERROR: NO hugging face API key founded!")
     os.environ["HUGGINGFACEHUB_API_TOKEN"] = hf_api_token
+
+    logging.info("🔐 API keys loaded successfully.")
