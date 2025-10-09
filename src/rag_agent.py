@@ -3,11 +3,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains.retrieval import create_retrieval_chain
 
+
 '''RETRIVAL AUGMENTED GENERATION'''
 
-def create_rag_agent(db):
+def create_rag_agent(db, model_name: str):
 
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-pro", temperature=0.7)
+    llm = ChatGoogleGenerativeAI(
+        model=model_name, 
+        temperature=0.7
+    )
 
     '''PROMPT TEMEPLATE'''
     prompt = ChatPromptTemplate.from_template("""
@@ -18,12 +22,14 @@ based solely on the following context:
 {context}
 </context>
 Question: {input}
+#Rules:
+- if the user wants a specific recipe, you must provide in the answer Ingredienti, Steps, Link. in this exact order.
                                               
 """)
 
     document_chain = create_stuff_documents_chain(llm, prompt)
     retriever = db.as_retriever()
-    # combined chaim
+
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
 
     return retrieval_chain
