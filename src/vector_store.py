@@ -9,7 +9,7 @@ from langchain_community.vectorstores import FAISS
 from src import settings
 
 
-def create_vector_store(file_path: str, persist_directory: str = "db"):
+def create_vector_store(file_path: str, persist_directory: str = "db")-> FAISS:
 
     #embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
     embeddings = HuggingFaceEmbeddings(model_name=settings.EMBEDDING_MODEL_NAME)
