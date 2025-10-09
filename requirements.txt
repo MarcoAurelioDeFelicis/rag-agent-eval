@@ -11,3 +11,4 @@ faiss-cpu
 google-generativeai
 sentence-transformers
 numpy==1.26.4
+PyYAML
