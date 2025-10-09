@@ -2,13 +2,14 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
-def get_percentage_scorer():
+
+def get_percentage_scorer(model_name: str):
     """
     Crea una chain LLM che agisce come "meta-giudice".
     Legge il ragionamento di un primo giudice e assegna un punteggio percentuale.
     """
 
-    scorer_llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-lite", temperature=0.0)
+    scorer_llm = ChatGoogleGenerativeAI(model=model_name, temperature=0.0)
 
     prompt = PromptTemplate.from_template(
 """
@@ -28,7 +29,7 @@ Question: {question}
 Answer: {answer}
 Judge's Reasoning: {reasoning}
 ---
-Accuracy Score (0-100):
+Accuracy Score:
 """
     )
 
