@@ -301,3 +301,4 @@ experiments/
 outputs/
 artifacts/
 tmp/
+db/index.faiss
