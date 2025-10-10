@@ -4,8 +4,10 @@ import argparse
 import logging
 import traceback
 from google.api_core.exceptions import ResourceExhausted
+from langchain_core.messages import HumanMessage, AIMessage
 
-'''MAIN CONFIG'''
+
+'''--- MAIN CONFIG ---'''
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from src import settings
@@ -22,7 +24,7 @@ logging.basicConfig(
     stream=sys.stdout 
 )
 
-""" EVAL WORKFLOW """
+"""--- EVAL WORKFLOW ---"""
 
 def run_evaluation(user_input, response):
     logging.info("--- Starting Evaluation ---")
@@ -73,12 +75,11 @@ def run_evaluation(user_input, response):
         logging.warning("Could not determine a percentage score from the model's output.")
     
 
-""" RAG WORKFLOW """
+"""--- RAG WORKFLOW ---"""
 
 def main(args):
 
     try:
-        # --- INITIALIZATION ---
         configure_api_keys()
 
         db = create_vector_store(
@@ -90,8 +91,9 @@ def main(args):
         fallback_rag_chain = create_rag_agent(db, model_name=settings.FALLBACK_LLM_MODEL)
         logging.info("🧠 RAG Culinary Assistant is ready!")
 
-        # --- CHAT LOOP ---
+        """--- CHAT LOOP ---"""
         last_user_input, last_response = None, None
+        chat_history = []
         
         print("\nTO START: Write your questions about the recipes (or 'quit' to close the chat).")
 
@@ -113,13 +115,22 @@ def main(args):
                     print("\n🤖 Assistant: You must ask a question before you can evaluate an answer.")
                 continue
 
+            
+            invoke_payload = {"input": user_input, "chat_history": chat_history}
+
             try:
-                response = primary_rag_chain.invoke({"input": user_input})
+                response = primary_rag_chain.invoke(invoke_payload)
             except ResourceExhausted:
                 logging.warning(f"Quota exceeded for RAG model '{settings.RAG_LLM_MODEL}'. Falling back to '{settings.FALLBACK_LLM_MODEL}'.")
-                response = fallback_rag_chain.invoke({"input": user_input})
+                response = fallback_rag_chain.invoke(invoke_payload)
 
             print("\n🤖 Assistant:", response["answer"])
+
+            chat_history.append(HumanMessage(content=user_input))
+            chat_history.append(AIMessage(content=response["answer"]))
+
+            if len(chat_history) > 10: 
+                chat_history = chat_history[-10:]
             
             last_user_input, last_response = user_input, response
 
