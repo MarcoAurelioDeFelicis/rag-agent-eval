@@ -17,7 +17,7 @@ RAG_LLM_MODEL = "gemini-2.5-pro"
 
 JUDGE_LLM_MODEL = "gemini-2.5-pro"
 
-SCORER_LLM_MOsL = "gemini-2.5-flash"
+SCORER_LLM_MODEL = "gemini-2.5-flash"
 
 # --- FALLBACK MODEL NAMES ---
 FALLBACK_LLM_MODEL = "gemini-2.5-flash"
