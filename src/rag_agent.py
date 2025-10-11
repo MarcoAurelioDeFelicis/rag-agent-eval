@@ -9,17 +9,6 @@ from langchain_core.runnables import Runnable
 
 
 def create_rag_agent(db: VectorStore, model_name: str) -> Runnable:
-    """
-    Crea una Retrieval-Augmented Generation (RAG) chain potenziata con MultiQueryRetriever e
-    supporto alla cronologia chat (History-Aware Retrieval).
-
-    Args:
-        db (VectorStore): Database vettoriale indicizzato.
-        model_name (str): Nome del modello Google Gemini (es. 'gemini-1.5-flash').
-
-    Returns:
-        RetrievalChain: Catena LangChain RAG pronta all'uso.
-    """
 
     # --- LLM ---
     llm = ChatGoogleGenerativeAI(
@@ -44,7 +33,7 @@ def create_rag_agent(db: VectorStore, model_name: str) -> Runnable:
         prompt=retriever_prompt
     )
 
-    # --- ANSWERE PROMPT ---
+    # --- ANSWER PROMPT ---
     prompt_answer = ChatPromptTemplate.from_messages([
         ("system", """
 ** Context **
@@ -80,7 +69,7 @@ Provide a precise, language-consistent culinary response using only the given co
         ("user", "{input}"),
     ])
 
-    # --- CREAZIONE DELLA CATENA FINALE ---
+    # --- rag chain ---
     document_chain = create_stuff_documents_chain(llm, prompt_answer)
     retrieval_chain = create_retrieval_chain(history_aware_retriever, document_chain)
 
