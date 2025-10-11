@@ -3,7 +3,7 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 
-def get_percentage_scorer(model_name: str):
+def get_percentage_scorer(model_name: str) -> PromptTemplate:
     """
     Crea una chain LLM che agisce come "meta-giudice".
     Legge il ragionamento di un primo giudice e assegna un punteggio percentuale.
