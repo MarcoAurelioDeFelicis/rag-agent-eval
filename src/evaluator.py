@@ -4,7 +4,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 '''EVAL MODEL'''
 
-def get_accuracy_evaluator(model_name: str):
+def get_accuracy_evaluator(model_name: str) :
 
     judge_llm = ChatGoogleGenerativeAI(
         model=model_name,
