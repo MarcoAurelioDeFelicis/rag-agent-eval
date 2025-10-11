@@ -92,3 +92,4 @@ uritemplate==4.2.0
 urllib3==2.5.0
 yarl==1.21.0
 zstandard==0.25.0
+langchain-experimental

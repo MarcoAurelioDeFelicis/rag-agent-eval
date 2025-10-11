@@ -12,6 +12,8 @@ DB_PERSIST_DIRECTORY = os.path.join(ROOT_DIR, "db")
 
 # --- MODEL NAMES ---
 EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
+# EMBEDDING_MODEL_NAME = "sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+
 
 RAG_LLM_MODEL = "gemini-2.5-pro"
 
