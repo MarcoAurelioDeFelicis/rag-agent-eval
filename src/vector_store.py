@@ -31,7 +31,7 @@ def create_vector_store(file_path: str, persist_directory: str = "db"):
     
     try:
         df = pd.read_csv(file_path).fillna('')
-        df = df.head(100) # Limit first 100 rows for testing
+        df = df.head(100) # testing
     except FileNotFoundError:
         logging.error(f"FATAL: CSV file not found at path: {file_path}")
         raise

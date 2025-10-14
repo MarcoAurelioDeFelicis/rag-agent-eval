@@ -1,5 +1,3 @@
-# FILE: main.py (ADATTATO)
-
 import sys
 import os
 import argparse
@@ -14,11 +12,11 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from src import settings
 from src.keys_config import configure_api_keys
 from src.vector_store import create_vector_store
-from src.rag_agent import RAGorchestrator # <-- Importa l'Orchestratore
+from src.rag_orchestrator import RAGorchestrator
 from src.evaluator import get_accuracy_evaluator
 from src.eval_scorer import get_percentage_scorer
 
-# Gestore per l'interruzione da tastiera (Ctrl+C)
+# quit (Ctrl+C) TODO: fix it
 def signal_handler(sig, frame):
     print("\n⛔ Execution interrupted by user. Exiting...")
     sys.exit(0)
@@ -32,7 +30,7 @@ logging.basicConfig(
 )
 
 """ EVAL WORKFLOW """
-# La funzione ora accetta 'answer' e 'context' separatamente
+
 def run_evaluation(user_input, answer, context):
     logging.info("--- Starting Evaluation ---")
 
@@ -76,13 +74,11 @@ def run_evaluation(user_input, answer, context):
 
 def main(args):
     try:
-        # --- INITIALIZATION ---
         configure_api_keys()
         db = create_vector_store(
             file_path=settings.CSV_FILE_PATH,
             persist_directory=settings.DB_PERSIST_DIRECTORY
         )
-        # Inizializza l'orchestratore, che gestirà tutto il flusso RAG
         orchestrator = RAGorchestrator(db)
         logging.info("🧠 RAG Culinary Assistant is ready!")
 
@@ -101,8 +97,6 @@ def main(args):
             if user_input.lower() == '/eval':
                 if last_user_input and last_answer:
                     try:
-                        # Passiamo alla valutazione l'ultimo input, l'ultima risposta
-                        # e il contesto recuperato, che è salvato nell'orchestratore
                         run_evaluation(last_user_input, last_answer, orchestrator.last_retrieved_docs)
                     except Exception as e:
                         logging.error(f"Evaluation failed with an error: {e}", exc_info=True)
@@ -111,14 +105,13 @@ def main(args):
                     print("\n🤖 Assistant: You must ask a question before you can evaluate an answer.")
                 continue
 
-            # --- Invocazione semplice dell'orchestratore ---
-            # Tutta la logica di RAG, fallback e cronologia è nascosta qui
+            #--- INVOKE RAG ORCHESTRATOR ---
             answer = orchestrator.invoke(user_input)
             
-            # --- DEBUGGING: STAMPIAMO IL CONTESTO ---
+            #--- CONTEXT RETRIEVING ---
             print("\n" + "="*50)
             print("🔍 CONTEXT RETRIEVED AND PASSED TO LLM:")
-            # Prendiamo il contesto dall'attributo dell'orchestratore
+
             retrieved_context = orchestrator.last_retrieved_docs
             if retrieved_context:
                 for i, doc in enumerate(retrieved_context):
@@ -129,10 +122,9 @@ def main(args):
             
             print("\n🤖 Assistant:", answer)
             
-            # --- AGGIORNAMENTO DELLO STATO PER /eval ---
             last_user_input, last_answer = user_input, answer
 
-            # --- ESECUZIONE DELLA VALUTAZIONE AUTOMATICA ---
+            # --- EVALUATION ---
             if args.evaluate:
                 try:
                     run_evaluation(user_input, answer, orchestrator.last_retrieved_docs)
