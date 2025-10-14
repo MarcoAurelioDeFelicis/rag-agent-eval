@@ -31,7 +31,7 @@ def create_vector_store(file_path: str, persist_directory: str = "db"):
     
     try:
         df = pd.read_csv(file_path).fillna('')
-        df = df.head(100) # Limit to first 100 rows for faster processing during testing
+        df = df.head(100) # testing
     except FileNotFoundError:
         logging.error(f"FATAL: CSV file not found at path: {file_path}")
         raise
@@ -69,12 +69,12 @@ def create_vector_store(file_path: str, persist_directory: str = "db"):
 
     logging.info(f"Successfully created {len(documents)} structured documents from CSV rows.")
 
-    """ chunkization """
+    # --- CHUNKIZATION ---
     text_splitter = SemanticChunker(embeddings, breakpoint_threshold_type="percentile")
     texts = text_splitter.split_documents(documents)
     logging.info(f"Splitted {len(documents)} documents into {len(texts)} semantic chunks.")
 
-    """ VDB FAISS by CSV """
+    # --- VDB FAISS by CSV ---
     logging.info("Creating embeddings and building the vector store. This may take a while...")
 
     db = FAISS.from_documents(texts, embeddings)
