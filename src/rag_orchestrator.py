@@ -5,13 +5,14 @@ from langchain_core.messages import HumanMessage, AIMessage
 from google.api_core.exceptions import ResourceExhausted
 
 
-from src.rag_flow.query_analyzer import create_query_analyzer_chain
-from src.rag_flow.retriver import create_dynamic_retriever_chain
-from src.rag_flow.qa_chain import create_qa_chain
+from src.rag.query_analyzer import create_query_analyzer_chain
+from src.rag.retriver import create_dynamic_retriever_chain
+from src.rag.qa_chain import create_qa_chain
 from src.settings import RAG_LLM_MODEL, FALLBACK_LLM_MODEL, DEFAULT_RERANK_TOP_N, ANALYZER_LLM_MODEL
 
 class RAGorchestrator:
     def __init__(self, db: VectorStore):
+
         # --- LLM MODELS ---
         self.primary_llm = ChatGoogleGenerativeAI(model=RAG_LLM_MODEL, temperature=0.7)
         self.fallback_llm = ChatGoogleGenerativeAI(model=FALLBACK_LLM_MODEL, temperature=0.7)
