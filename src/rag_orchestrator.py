@@ -30,7 +30,7 @@ class RAGorchestrator:
         # --- GET DYNAMIC TOP N ---
         try:
             analysis_result = self.query_analyzer.invoke({"user_query": user_input})
-            top_n = int(analysis_result)
+            top_n = int(analysis_result) + 3
             logging.info(f"Dynamic top_n detected: {top_n}")
         except (ValueError, TypeError):
             top_n = DEFAULT_RERANK_TOP_N

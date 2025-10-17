@@ -8,6 +8,8 @@ from langchain_core.runnables import Runnable
 from langchain.chains.history_aware_retriever import create_history_aware_retriever
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
+from langchain_core.prompts import PromptTemplate
+
 from src.settings import DEFAULT_RETRIEVER_TOP_K
 
 def create_dynamic_retriever_chain(db: VectorStore, llm: ChatGoogleGenerativeAI, top_n: int) -> Runnable:
@@ -15,13 +17,22 @@ def create_dynamic_retriever_chain(db: VectorStore, llm: ChatGoogleGenerativeAI,
     # --- RETRIEVERS ---
     if top_n >= DEFAULT_RETRIEVER_TOP_K:
         top_k = top_n * 2
-        base_retriever = db.as_retriever(search_kwargs={"k": top_k })
     else:
-        base_retriever = db.as_retriever(search_kwargs={"k": DEFAULT_RETRIEVER_TOP_K})
-    
+        top_k = DEFAULT_RETRIEVER_TOP_K
+    base_retriever = db.as_retriever(search_kwargs={"k": top_k})    
     logging.info(f"### Base retriever initialized with top_k={top_k}, dynamic top_n={top_n}.")
 
-    multi_query_retriever = MultiQueryRetriever.from_llm(retriever=base_retriever, llm=llm)
+    # --- MULTI-QUERY RETRIEVER ---
+    prompt_multiquery = PromptTemplate.from_template(
+    """You are an AI language model assistant. Your task is
+    to generate 3 different versions of the given user
+    question to retrieve relevant documents from a vector  database.
+    By generating multiple perspectives on the user question,
+    your goal is to help the user overcome some of the limitations
+    of distance-based similarity search. Provide these alternative
+    questions in the same language of the Original question,
+      separated by newlines,. Original question: {question}""",)
+    multi_query_retriever = MultiQueryRetriever.from_llm(retriever=base_retriever, llm=llm, prompt=prompt_multiquery)
 
     # --- RE-RANKER + DYNAMIC TOP N TOP K---
     reranker = FlashrankRerank(top_n=top_n)
@@ -34,7 +45,9 @@ def create_dynamic_retriever_chain(db: VectorStore, llm: ChatGoogleGenerativeAI,
 
     # --- RETRIEVER HISTORY AWARE (wrapper) ---
     retriever_prompt = ChatPromptTemplate.from_messages([
-        ("system", "Retrieve the most relevant documents by also taking the chat history into account."),
+        ("system",
+        "Retrieve the most relevant documents by also taking the chat history into account."
+        "The user often refers to something from the chat history, so use it to better understand the context and what to retrive."),
         MessagesPlaceholder(variable_name="chat_history"),
         ("user", "{input}"),
     ])
