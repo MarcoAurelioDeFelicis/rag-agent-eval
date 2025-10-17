@@ -9,7 +9,7 @@ def create_query_analyzer_chain(model_name: str) -> Runnable:
 
     prompt = PromptTemplate.from_template(
         """Given the user's input, extract the number of items they are requesting.
-- If the user asks for a specific number of results (e.g., "give me 5 recipes", "list 3 options"), respond ONLY with the number (e.g., "5", "3").
+- If the user asks for a specific number of results (e.g., "give me five recipes", "list 3 options", "I need few dishes"), respond ONLY with the number (e.g., "5", "3").
 - If the user does not specify a number, respond ONLY with the word 'default'.
 
 User input:
