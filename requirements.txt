@@ -7,10 +7,13 @@ attrs==25.3.0
 cachetools==6.2.0
 certifi==2025.10.5
 charset-normalizer==3.4.3
+coloredlogs==15.0.1
 dataclasses-json==0.6.7
 faiss-cpu==1.12.0
 filelock==3.19.1
 filetype==1.2.0
+FlashRank==0.2.10
+flatbuffers==25.9.23
 frozenlist==1.7.0
 fsspec==2025.9.0
 google-ai-generativelanguage==0.6.15
@@ -30,6 +33,7 @@ httplib2==0.31.0
 httpx==0.28.1
 httpx-sse==0.4.1
 huggingface-hub==0.35.3
+humanfriendly==10.0
 idna==3.10
 Jinja2==3.1.6
 joblib==1.5.2
@@ -38,9 +42,14 @@ jsonpointer==3.0.0
 langchain==0.3.27
 langchain-community==0.3.30
 langchain-core==0.3.78
+langchain-experimental==0.3.4
 langchain-google-genai==2.0.10
 langchain-huggingface==0.3.1
 langchain-text-splitters==0.3.11
+langgraph==1.0.0
+langgraph-checkpoint==2.1.2
+langgraph-prebuilt==1.0.0
+langgraph-sdk==0.2.9
 langsmith==0.4.32
 MarkupSafe==3.0.3
 marshmallow==3.26.1
@@ -49,7 +58,9 @@ multidict==6.6.4
 mypy_extensions==1.1.0
 networkx==3.5
 numpy==1.26.4
+onnxruntime==1.23.1
 orjson==3.11.3
+ormsgpack==1.11.0
 packaging==25.0
 pandas==2.3.3
 pillow==11.3.0
@@ -90,7 +101,6 @@ typing_extensions==4.15.0
 tzdata==2025.2
 uritemplate==4.2.0
 urllib3==2.5.0
+xxhash==3.6.0
 yarl==1.21.0
 zstandard==0.25.0
-langchain-experimental
-flashrank
