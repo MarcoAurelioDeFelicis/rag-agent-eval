@@ -10,7 +10,7 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 from langchain_core.prompts import PromptTemplate
 
-from src.settings import DEFAULT_RETRIEVER_TOP_K
+from app.settings import DEFAULT_RETRIEVER_TOP_K
 
 def create_dynamic_retriever_chain(db: VectorStore, llm: ChatGoogleGenerativeAI, top_n: int) -> Runnable:
  
