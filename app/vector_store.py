@@ -7,7 +7,7 @@ from langchain_experimental.text_splitter import SemanticChunker
 from langchain_huggingface import HuggingFaceEmbeddings 
 from langchain_community.vectorstores import FAISS
 
-from src import settings
+from app import settings
 
 
 def create_vector_store(file_path: str, persist_directory: str = "db"):

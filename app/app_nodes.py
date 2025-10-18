@@ -1,5 +1,5 @@
 import logging
-from src.app_state import AppState
+from app.app_state import AppState
 
 # La funzione di valutazione rimane in main.py, la passiamo come argomento
 # per mantenere i nodi focalizzati sulla logica del grafo.

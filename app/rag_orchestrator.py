@@ -5,10 +5,10 @@ from langchain_core.vectorstores import VectorStore
 from langchain_core.messages import HumanMessage, AIMessage
 from google.api_core.exceptions import ResourceExhausted
 
-from src.rag.query_analyzer import create_query_analyzer_chain
-from src.rag.retriver import create_dynamic_retriever_chain
-from src.rag.qa_chain import create_qa_chain
-from src.settings import RAG_LLM_MODEL, FALLBACK_LLM_MODEL, DEFAULT_RERANK_TOP_N, ANALYZER_LLM_MODEL
+from app.rag.query_analyzer import create_query_analyzer_chain
+from app.rag.retriver import create_dynamic_retriever_chain
+from app.rag.qa_chain import create_qa_chain
+from app.settings import RAG_LLM_MODEL, FALLBACK_LLM_MODEL, DEFAULT_RERANK_TOP_N, ANALYZER_LLM_MODEL
 
 class RAGorchestrator:
     def __init__(self, db: VectorStore):
