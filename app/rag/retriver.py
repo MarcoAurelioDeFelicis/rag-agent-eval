@@ -16,7 +16,7 @@ def create_dynamic_retriever_chain(db: VectorStore, llm: ChatGoogleGenerativeAI,
  
     # --- RETRIEVERS ---
     if top_n >= DEFAULT_RETRIEVER_TOP_K:
-        top_k = top_n * 2
+        top_k = min(top_n * 2, 50)
     else:
         top_k = DEFAULT_RETRIEVER_TOP_K
     base_retriever = db.as_retriever(search_kwargs={"k": top_k})    

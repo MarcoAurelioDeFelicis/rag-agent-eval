@@ -9,12 +9,12 @@ import signal
 '''MAIN CONFIG'''
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from src import settings
-from src.keys_config import configure_api_keys
-from src.vector_store import create_vector_store
-from src.rag_orchestrator import RAGorchestrator
-from src.eval.evaluator import get_accuracy_evaluator
-from src.eval.eval_scorer import get_percentage_scorer
+from app import settings
+from app.keys_config import configure_api_keys
+from app.vector_store import create_vector_store
+from app.rag_orchestrator import RAGorchestrator
+from app.eval.evaluator import get_accuracy_evaluator
+from app.eval.eval_scorer import get_percentage_scorer
 
 # quit (Ctrl+C) TODO: fix it
 def signal_handler(sig, frame):
